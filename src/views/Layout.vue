@@ -1,28 +1,22 @@
 <template>
-  <v-app>
+  <div id="layout">
+    <HeadNave></HeadNave>
     <transition name="fade-transform" mode="out-in">
       <router-view :key="key" />
     </transition>
-  </v-app>
+  </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
-
+import HeadNave from "@/components/HeadNav.vue";
 export default {
-  name: "App",
-  components: {},
-  data: () => ({}),
+  components: {
+    HeadNave
+  },
   computed: {
     key() {
       return this.$route.path;
     }
-  },
-  methods: {
-    ...mapActions(["GET_TAGS"])
-  },
-  async created() {
-    this.GET_TAGS();
   }
 };
 </script>

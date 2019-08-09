@@ -1,0 +1,93 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.flex-grow-hold {
+  flex-grow: 1
+}
+
+/* SVG class */
+
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+/* fade-transform */
+
+.fade-transform-leave-active, .fade-transform-enter-active {
+  transition: all 0.5s;
+}
+
+.fade-transform-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+/* Pulse Button style   https://cssfx.dev/ */
+
+.pulse-button {
+  z-index: 1;
+  position: relative;
+  font-size: inherit;
+  font-family: inherit;
+  color: white;
+  padding: 0.5em 1em;
+  outline: none;
+  border: none;
+  background-color: hsl(236, 32%, 26%);
+}
+
+.pulse-button:hover {
+  cursor: pointer;
+}
+
+.pulse-button::before {
+  content: '';
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 4px solid hsl(236, 32%, 26%);
+  transform-origin: center;
+  transform: scale(1);
+}
+
+.pulse-button::after {
+  content: '';
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 2px solid hsl(236, 32%, 26%);
+  transform-origin: center;
+  transform: scale(0.9);
+}
+
+.pulse-button:hover::before {
+  transition: all 0.75s ease-out;
+  transform-origin: center;
+  transform: scale(1.75);
+  opacity: 0;
+}
+
+.pulse-button:hover::after {
+  transition: all 0.75s ease-in;
+  transform-origin: center;
+  transform: scale(1.75);
+  opacity: 0;
+}

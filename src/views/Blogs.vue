@@ -17,16 +17,27 @@ export default {
     blogs: [],
     page: 1,
     count: 10,
-    eBlog: {},
+    eBlog: {
+      content: "",
+      title: "",
+      tags: []
+    },
     activeId: null
   }),
   methods: {
     editBlog(v) {
-      console.log("asdf");
       if (!v) {
-        this.holdBlogTxt = "";
-        this.holdBlogTitle = "";
-        this.holdTags = [];
+        this.eBlog = {
+          content: "",
+          title: "",
+          tags: [
+            {
+              id: 4,
+              tag: "文章"
+            }
+          ]
+        };
+        this.activeId = null;
       } else {
         this.activeId = v;
         let findItem = this.blogs.find(e => {

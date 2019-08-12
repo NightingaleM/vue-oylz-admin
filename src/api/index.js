@@ -32,14 +32,26 @@ _axios.interceptors.response.use(
   },
   function (error) {
     // Do something with response error
-    if (error.response.status === 403) {
-      location.href = '/login'
+    if (error.response.status === 403 && location.pathname !== '/login') {
+      location.pathname = '/login'
     }
     return Promise.reject(error);
   }
 );
 
 const API = {
+  checkStatus() {
+    return _axios({
+      method: 'post',
+      url: '/check'
+    })
+  },
+  logout() {
+    return _axios({
+      method: 'post',
+      url: '/logout'
+    })
+  },
   login({ email, password }) {
     return _axios({
       method: 'post',

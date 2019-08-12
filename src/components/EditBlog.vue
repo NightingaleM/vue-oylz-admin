@@ -56,6 +56,7 @@ export default {
         content: this.txt
       });
       this.$emit("update");
+      // TODO: 发文成功需要提示
     }
   },
   watch: {
@@ -65,6 +66,7 @@ export default {
         console.log(v);
         this.txt = v.content;
         this.title = v.title;
+        console.log(v.tags);
         this.holdBlogTags = [...v.tags];
       }
     }

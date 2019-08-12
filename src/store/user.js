@@ -13,6 +13,9 @@ const actions = {
   async [types.GET_TAGS]({ commit }, data) {
     let { data: tags } = await API.getAllTags()
     commit(types.SET_TAGS, tags)
+  },
+  async [types.CHECK_STATUS]() {
+    await API.checkStatus()
   }
 }
 

@@ -16,7 +16,12 @@
         @blur="hideOptions"
       />
     </ul>
-    <div class="option-box" v-show="showOptions" @mouseleave="hideOptions({delay:50})">
+    <div
+      class="option-box"
+      v-show="showOptions"
+      @mouseleave="hideOptions({delay:500})"
+      @mouseenter="keepOptions"
+    >
       <div
         :class="['tag-chip',{selected:holdTags.findIndex(e=>e.id===item.id) >=0}]"
         v-for="item in selectedTags"
@@ -53,9 +58,15 @@ export default {
     timer: null
   }),
   methods: {
+    ...mapActions(["GET_TAGS"]),
     async createTag() {
-      let tagRes = await this.$axios.createTag({ tag: this.keyword });
-      console.log(tagRes);
+      let { data: tagRes } = await this.$axios.createTag({ tag: this.keyword });
+      await this.GET_TAGS();
+      this.holdTags.push({
+        id: tagRes.id,
+        tag: this.keyword
+      });
+      this.keyword = "";
     },
     removeTag(item, index) {
       if (this.keepTag.findIndex(e => e === item.id) >= 0) {
@@ -66,10 +77,12 @@ export default {
       this.changeTag();
     },
     hideOptions({ delay = 400 }) {
-      console.log(delay);
       this.timer = setTimeout(() => {
         this.showOptions = false;
       }, delay);
+    },
+    keepOptions() {
+      clearTimeout(this.timer);
     },
     addTag(item) {
       clearTimeout(this.timer);
@@ -126,12 +139,15 @@ export default {
   .option-box {
     position: absolute;
     left: -10px;
+    top: 27px;
     background-color: #eee;
     width: 500px;
     flex-wrap: wrap;
     height: auto;
     display: flex;
     padding: 10px;
+    border: 1px dashed #ccc;
+    border-left: none;
     .undefind-tag {
       margin-bottom: 0;
       padding-top: 10px;

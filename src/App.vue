@@ -19,10 +19,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["GET_TAGS"])
+    ...mapActions(["GET_TAGS", "CHECK_STATUS"])
   },
   async created() {
-    this.GET_TAGS();
+    await this.CHECK_STATUS();
+    await this.GET_TAGS();
   }
 };
 </script>

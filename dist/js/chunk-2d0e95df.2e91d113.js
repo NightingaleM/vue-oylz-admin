@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0e95df"],{"8cdb":function(t,e,n){"use strict";n.r(e);var r=function(){var t=this,e=t.$createElement;t._self._c;return t._m(0)},a=[function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("div",{attrs:{id:"404page"}},[t._v("\n  迷路了？\n  这有\n  "),n("a",{attrs:{href:"http://oylz.site"}},[t._v("传送门")]),t._v(" ！\n")])}],c={},s=c,l=n("2877"),u=Object(l["a"])(s,r,a,!1,null,null,null);e["default"]=u.exports}}]);
+//# sourceMappingURL=chunk-2d0e95df.2e91d113.js.map

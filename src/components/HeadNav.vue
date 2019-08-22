@@ -30,8 +30,10 @@ export default {
     ]
   }),
   methods: {
-    logout() {
+    async logout() {
       console.log("logout");
+      await this.$axios.logout();
+      this.$router.push("login");
     }
   }
 };

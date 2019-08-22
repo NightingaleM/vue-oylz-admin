@@ -52,8 +52,12 @@ export default {
         count: this.count
       });
       this.blogs = blogs.result.data;
-      this.activeId = blogs.result.data[0].id;
-      this.editBlog(this.activeId);
+      if (blogs.result.data[0]) {
+        this.activeId = blogs.result.data[0].id;
+        this.editBlog(this.activeId);
+      } else {
+        this.editBlog(null);
+      }
     }
   },
   created() {

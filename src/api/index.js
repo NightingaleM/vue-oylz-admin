@@ -68,6 +68,7 @@ const API = {
       method: 'get',
       url: '/article',
       params: {
+        isSelf: true,
         tag, page, count
       }
     })

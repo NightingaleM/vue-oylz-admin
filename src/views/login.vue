@@ -29,11 +29,15 @@ export default {
   methods: {
     async login() {
       console.log("Lo~g~in~~~~");
-      let res = await this.$axios.login({
-        email: this.email,
-        password: this.password
-      });
-      console.log(res);
+      try {
+        let res = await this.$axios.login({
+          email: this.email,
+          password: this.password
+        });
+        this.$router.push("/");
+      } catch (e) {
+        console.dir(e.response.data[0].message);
+      }
     }
   }
 };

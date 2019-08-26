@@ -84,6 +84,25 @@ const API = {
       }
     })
   },
+  updateArticle({
+    id, tag_id, title, content, tag
+  }) {
+    return _axios({
+      method: "put",
+      url: `/article/${id}`,
+      data: {
+        tag_id, title, content, tag
+      }
+    })
+  },
+  deleteArticle({
+    id,
+  }) {
+    return _axios({
+      method: "delete",
+      url: `/article/${id}`
+    })
+  },
   getAllTags() {
     return _axios({
       method: 'get',

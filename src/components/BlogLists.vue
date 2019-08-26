@@ -21,7 +21,22 @@
         </svg>
         {{item.tags.map(e=>e.tag).join(',')}}
       </p>
+      <div class="options">
+        <svg class="icon" aria-hidden="true" @click="initDelete(item.id)">
+          <use xlink:href="#icon-delete" />
+        </svg>
+      </div>
     </li>
+    <v-dialog v-model="deleteDialog" max-width="290">
+      <v-card>
+        <v-card-title class="headline">删除文章？</v-card-title>
+        <v-card-actions>
+          <div class="flex-grow-1"></div>
+          <v-btn color="red " text @click="deleteArticle">删！</v-btn>
+          <v-btn color="green " text @click="deleteDialog = false">别！</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </ul>
 </template>
 
@@ -37,8 +52,28 @@ export default {
       default: null
     }
   },
-  data: () => ({}),
+  data: () => ({
+    deleteDialog: false,
+    deleteId: null
+  }),
   methods: {
+    initDelete(id) {
+      this.deleteId = id;
+      this.deleteDialog = true;
+    },
+    async deleteArticle() {
+      try {
+        let deleteRes = await this.$axios.deleteArticle({
+          id: this.deleteId
+        });
+        this.deleteId = null;
+        this.deleteDialog = false;
+        // TODO: 提醒删除成功
+        this.$emit("update", true);
+      } catch (e) {
+        console.log(e);
+      }
+    },
     remove(item) {
       const index = this.friends.indexOf(item.name);
       if (index >= 0) this.friends.splice(index, 1);
@@ -56,29 +91,39 @@ export default {
 <style lang="less" scoped>
 .blog-ul {
   padding: 0;
-  max-width: 400px;
+  max-width: 350px;
   li {
     cursor: pointer;
     padding: 10px 20px;
     list-style: none;
+    position: relative;
     border-bottom: 1px dashed #ccc;
     p {
       margin: 0;
     }
-  }
-  .active {
-    background-color: #eee;
-  }
-  .title {
-    color: rgb(73, 73, 73);
-    margin-bottom: 10px;
-    &:hover {
-      color: #000;
+    .active {
+      background-color: #eee;
     }
-  }
-  .tags {
-    font-size: 12px;
-    color: #666;
+    .title {
+      color: rgb(73, 73, 73);
+      margin-bottom: 10px;
+      &:hover {
+        color: #000;
+      }
+    }
+    .tags {
+      font-size: 12px;
+      color: #666;
+    }
+    .options {
+      top: 16px;
+      right: 10px;
+      position: absolute;
+      font-size: 14px;
+      svg {
+        cursor: pointer;
+      }
+    }
   }
 }
 </style>

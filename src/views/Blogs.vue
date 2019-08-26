@@ -1,6 +1,12 @@
 <template>
   <div id="blogs-page">
-    <BlogLists class="cp-blog-lists" :blogs="blogs" @editBlog="editBlog" :activeId="activeId"></BlogLists>
+    <BlogLists
+      class="cp-blog-lists"
+      :blogs="blogs"
+      @update="getBlogs"
+      @editBlog="editBlog"
+      :activeId="activeId"
+    ></BlogLists>
     <EditBlog class="cp-edit-blog" :blog="eBlog" @update="getBlogs"></EditBlog>
   </div>
 </template>
@@ -46,17 +52,17 @@ export default {
         this.eBlog = findItem;
       }
     },
-    async getBlogs() {
+    async getBlogs(isDelete) {
       let { data: blogs } = await this.$axios.getArticleLists({
         page: this.page,
         count: this.count
       });
       this.blogs = blogs.result.data;
-      if (blogs.result.data[0]) {
+      if ((blogs.result.data[0] && !this.activeId) || isDelete) {
         this.activeId = blogs.result.data[0].id;
         this.editBlog(this.activeId);
       } else {
-        this.editBlog(null);
+        this.editBlog(this.activeId);
       }
     }
   },

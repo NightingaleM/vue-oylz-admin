@@ -49,14 +49,24 @@ export default {
       if (tags.indexOf(4) < 0) {
         tags.push(4);
       }
-      console.log(tags);
-      let articleRes = await this.$axios.createArticle({
-        tag: tags,
-        title: this.title,
-        content: this.txt
-      });
-      this.$emit("update");
-      // TODO: 发文成功需要提示
+      if (this.blog.id) {
+        let articleRes = await this.$axios.updateArticle({
+          id: this.blog.id,
+          tag_id: this.blog.tags.map(e => e.pivot.tag_id),
+          tag: tags,
+          title: this.title,
+          content: this.txt
+        });
+        this.$emit("update");
+      } else {
+        let articleRes = await this.$axios.createArticle({
+          tag: tags,
+          title: this.title,
+          content: this.txt
+        });
+        this.$emit("update");
+        // TODO: 发文成功需要提示
+      }
     }
   },
   watch: {
@@ -67,7 +77,11 @@ export default {
         this.txt = v.content;
         this.title = v.title;
         console.log(v.tags);
-        this.holdBlogTags = [...v.tags];
+        this.holdBlogTags = [
+          ...v.tags.map(e => {
+            return { id: e.pivot.tag_id, tag: e.tag };
+          })
+        ];
       }
     }
   }

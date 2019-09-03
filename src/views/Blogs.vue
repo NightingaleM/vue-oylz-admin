@@ -32,6 +32,7 @@ export default {
   }),
   methods: {
     editBlog(v) {
+      console.log(v);
       if (!v) {
         this.eBlog = {
           content: "",

@@ -74,24 +74,25 @@ const API = {
     })
   },
   createArticle({
-    tag, title, content
+    tag, title, content, isPublic, isStick
   }) {
     return _axios({
       method: 'post',
       url: '/article',
       data: {
-        tag, title, content
+        tag, title, content, isPublic, isStick
       }
     })
   },
   updateArticle({
-    id, tag_id, title, content, tag
+    id, tag_id, title, content, tag,
+    isPublic, isStick
   }) {
     return _axios({
       method: "put",
       url: `/article/${id}`,
       data: {
-        tag_id, title, content, tag
+        tag_id, title, content, tag, isPublic, isStick
       }
     })
   },

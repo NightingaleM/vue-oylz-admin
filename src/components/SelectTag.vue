@@ -7,21 +7,9 @@
         v-for="(item,index) in holdTags"
         :key="item.id"
       >{{item.tag}}</li>
-      <input
-        type="text"
-        v-model="keyword"
-        class="select-input"
-        placeholder="添加标签"
-        @focus="showOptions = true"
-        @blur="hideOptions"
-      />
+      <input type="text" v-model="keyword" class="select-input" placeholder="添加标签" @focus="onFocus" />
     </ul>
-    <div
-      class="option-box"
-      v-show="showOptions"
-      @mouseleave="hideOptions({delay:500})"
-      @mouseenter="keepOptions"
-    >
+    <div class="option-box" v-show="showOptions">
       <div
         :class="['tag-chip',{selected:holdTags.findIndex(e=>e.id===item.id) >=0}]"
         v-for="item in selectedTags"
@@ -55,10 +43,25 @@ export default {
     showOptions: false,
     holdTags: [],
     keyword: "",
-    timer: null
+    timer: null,
+    Doms: []
   }),
   methods: {
     ...mapActions(["GET_TAGS"]),
+    onFocus() {
+      this.showOptions = true;
+      let actions = e => {
+        e.path.forEach(p => {});
+        for (let i = 0; i < e.path.length; i++) {
+          if (this.Doms.indexOf(e.path[i]) >= 0) {
+            return;
+          }
+        }
+        this.showOptions = false;
+        window.removeEventListener("click", actions);
+      };
+      window.addEventListener("click", actions);
+    },
     async createTag() {
       let { data: tagRes } = await this.$axios.createTag({ tag: this.keyword });
       await this.GET_TAGS();
@@ -67,6 +70,7 @@ export default {
         tag: this.keyword
       });
       this.keyword = "";
+      this.changeTag();
     },
     removeTag(item, index) {
       if (this.keepTag.findIndex(e => e === item.id) >= 0) {
@@ -75,14 +79,6 @@ export default {
       }
       this.holdTags.splice(index, 1);
       this.changeTag();
-    },
-    hideOptions({ delay = 400 }) {
-      this.timer = setTimeout(() => {
-        this.showOptions = false;
-      }, delay);
-    },
-    keepOptions() {
-      clearTimeout(this.timer);
     },
     addTag(item) {
       clearTimeout(this.timer);
@@ -114,6 +110,12 @@ export default {
     }
   },
   created() {},
+  mounted() {
+    this.Doms.push(
+      document.querySelector("#select-tag .show-tags input.select-input")
+    );
+    this.Doms.push(document.querySelector("#select-tag .option-box"));
+  },
   watch: {
     value() {
       this.holdTags = [...this.value];

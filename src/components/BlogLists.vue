@@ -14,7 +14,15 @@
       </p>
     </li>
     <li v-for="item in blogs" :key="item.title" :class="['blog-li',{active:item.id === activeId}]">
-      <p class="title" @click="editBlog(item.id)">{{item.title}}</p>
+      <p class="title" @click="editBlog(item.id)">
+        <svg class="icon" aria-hidden="true" v-if="!item.is_public">
+          <use xlink:href="#icon-Non-publicise" />
+        </svg>
+        <svg class="icon" aria-hidden="true" v-else>
+          <use xlink:href="#icon-gongkai" />
+        </svg>
+        {{item.title}}
+      </p>
       <p class="tags">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-tags" />
@@ -93,20 +101,21 @@ export default {
   padding: 0;
   max-width: 350px;
   li {
+    overflow: hidden;
     cursor: pointer;
     padding: 10px 20px;
     list-style: none;
     position: relative;
     border-bottom: 1px dashed #ccc;
+    z-index: 5;
     p {
       margin: 0;
-    }
-    .active {
-      background-color: #eee;
     }
     .title {
       color: rgb(73, 73, 73);
       margin-bottom: 10px;
+      position: relative;
+      z-index: 5;
       &:hover {
         color: #000;
       }
@@ -116,6 +125,7 @@ export default {
       color: #666;
     }
     .options {
+      z-index: 10;
       top: 16px;
       right: 10px;
       position: absolute;
@@ -124,6 +134,9 @@ export default {
         cursor: pointer;
       }
     }
+  }
+  .active {
+    background-color: rgb(196, 196, 196);
   }
 }
 </style>
